@@ -7,8 +7,8 @@ Gem::Specification.new do |spec|
   spec.version       = "1.0.0"
   spec.authors       = ["Pip Taylor"]
   spec.email         = ["pip@evilgeek.co.uk"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.homepage      = ""
+  spec.summary       = %q{Set X-Forwarded-For header to original client IP when using Cloudflare in proxy mode}
+  spec.homepage      = "https://github.com/ms-digital-labs/rack-cloudflare_ip"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
