@@ -1,6 +1,9 @@
 # Rack::CloudflareIp
 
-TODO: Write a gem description
+Overwrites the `X_FORWARDED_FOR` HTTP header with the contents of
+`CF_CONNECTING_IP` if it's present. This makes `request.remote_ip` in
+Rails return the IP of the user making the request rather than the IP of
+a Cloudflare server.
 
 ## Installation
 
@@ -18,11 +21,16 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+In `config/application.rb`:
+
+```ruby
+require "rack/cloudflare_ip"
+config.middleware.use Rack::CloudflareIp
+```
 
 ## Contributing
 
-1. Fork it ( http://github.com/<my-github-username>/rack-cloudflare_ip/fork )
+1. Fork it ( http://github.com/ms-digital-labs/rack-cloudflare_ip/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
