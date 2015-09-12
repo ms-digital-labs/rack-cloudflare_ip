@@ -26,7 +26,8 @@ describe Rack::CloudflareIp do
     } }
 
     it "overwrites the HTTP_X_FORWARDED_FOR header" do
-      expect(last_response.headers["HTTP_X_FORWARDED_FOR"]).to eq("123.123.123.123")
+      expect(last_response.headers["HTTP_X_FORWARDED_FOR"])
+        .to eq("123.123.123.123")
     end
 
     it "saves the original header in HTTP_ORIGINAL_X_FORWARDED_FOR" do
@@ -45,7 +46,8 @@ describe Rack::CloudflareIp do
     } }
 
     it "doesn't modify the HTTP_X_FORWARDED_FOR header" do
-      expect(last_response.headers["HTTP_X_FORWARDED_FOR"]).to eq("234.234.234.234")
+      expect(last_response.headers["HTTP_X_FORWARDED_FOR"])
+        .to eq("234.234.234.234")
     end
   end
 
@@ -66,7 +68,8 @@ describe Rack::CloudflareIp do
       end
 
       it "saves the original header in ORIGINAL_REMOTE_ADDR" do
-        expect(last_response.headers["ORIGINAL_REMOTE_ADDR"]).to eq("234.234.234.234")
+        expect(last_response.headers["ORIGINAL_REMOTE_ADDR"])
+          .to eq("234.234.234.234")
       end
 
       it "purges the HTTP_X_FORWARDED_FOR header" do
@@ -88,6 +91,5 @@ describe Rack::CloudflareIp do
         expect(last_response.headers["REMOTE_ADDR"]).to eq("234.234.234.234")
       end
     end
-
   end
 end
