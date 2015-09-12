@@ -12,6 +12,8 @@ module Rack
         if @override_remote_address
           env["ORIGINAL_REMOTE_ADDR"] = env["REMOTE_ADDR"]
           env["REMOTE_ADDR"] = env["HTTP_CF_CONNECTING_IP"]
+          env["HTTP_ORIGINAL_X_FORWARDED_FOR"] =
+            env.delete("HTTP_X_FORWARDED_FOR")
         else
           env["HTTP_ORIGINAL_X_FORWARDED_FOR"] = env["HTTP_X_FORWARDED_FOR"]
           env["HTTP_X_FORWARDED_FOR"] = env["HTTP_CF_CONNECTING_IP"]

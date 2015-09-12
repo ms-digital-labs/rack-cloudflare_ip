@@ -57,7 +57,8 @@ describe Rack::CloudflareIp do
     context "with HTTP_CF_CONNECTING_IP header" do
       let(:headers) { {
         "HTTP_CF_CONNECTING_IP" => "123.123.123.123",
-        "REMOTE_ADDR" => "234.234.234.234"
+        "REMOTE_ADDR" => "234.234.234.234",
+        "HTTP_X_FORWARDED_FOR" => "234.234.234.234",
       } }
 
       it "overwrites the REMOTE_ADDR env var" do
@@ -66,6 +67,15 @@ describe Rack::CloudflareIp do
 
       it "saves the original header in ORIGINAL_REMOTE_ADDR" do
         expect(last_response.headers["ORIGINAL_REMOTE_ADDR"]).to eq("234.234.234.234")
+      end
+
+      it "purges the HTTP_X_FORWARDED_FOR header" do
+        expect(last_response.headers["HTTP_X_FORWARDED_FOR"]).to be_nil
+      end
+
+      it "stashes the old HTTP_X_FORWARDED_FOR in HTTP_ORIGINAL_X_FORWARDED_FOR" do
+        expect(last_response.headers["HTTP_ORIGINAL_X_FORWARDED_FOR"])
+          .to eq("234.234.234.234")
       end
     end
 
