@@ -1,8 +1,8 @@
 # Rack::CloudflareIp
 
-Overwrites the `X_FORWARDED_FOR` HTTP header with the contents of
-`CF_CONNECTING_IP` if it's present. This makes `request.remote_ip` in
-Rails return the IP of the user making the request rather than the IP of
+Overwrites the `REMOTE_ADDR` HTTP header with the contents of
+`CF_CONNECTING_IP` if it's present. This makes `request.ip` in
+Rack return the IP of the user making the request rather than the IP of
 a Cloudflare server.
 
 ## Installation

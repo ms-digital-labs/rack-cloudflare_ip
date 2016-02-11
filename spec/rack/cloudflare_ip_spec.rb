@@ -9,8 +9,7 @@ describe Rack::CloudflareIp do
 
   def base_app
     lambda { |env|
-      headers = env.select { |k, _| k =~ /^HTTP_.*/ }
-      [200, headers, []]
+      [200, env, []]
     }
   end
 
@@ -21,26 +20,27 @@ describe Rack::CloudflareIp do
   context "with HTTP_CF_CONNECTING_IP header" do
     let(:headers) { {
       "HTTP_CF_CONNECTING_IP" => "123.123.123.123",
-      "HTTP_X_FORWARDED_FOR" => "234.234.234.234"
+      "REMOTE_ADDR" => "234.234.234.234"
     } }
 
-    it "overwrites the HTTP_X_FORWARDED_FOR header" do
-      expect(last_response.headers["HTTP_X_FORWARDED_FOR"]).to eq("123.123.123.123")
+    it "overwrites sets the REMOTE_ADDR header" do
+      puts last_response.headers
+      expect(last_response.headers["REMOTE_ADDR"]).to eq("123.123.123.123")
     end
 
-    it "saves the original header in HTTP_ORIGINAL_X_FORWARDED_FOR" do
-      expect(last_response.headers["HTTP_ORIGINAL_X_FORWARDED_FOR"])
+    it "saves the original header in ORIGINAL_REMOTE_ADDR" do
+      expect(last_response.headers["ORIGINAL_REMOTE_ADDR"])
               .to eq("234.234.234.234")
     end
   end
 
   context "without HTTP_CF_CONNECTING_IP header" do
     let(:headers) { {
-      "HTTP_X_FORWARDED_FOR" => "234.234.234.234"
+      "REMOTE_ADDR" => "234.234.234.234"
     } }
 
-    it "doesn't modify the HTTP_X_FORWARDED_FOR header" do
-      expect(last_response.headers["HTTP_X_FORWARDED_FOR"]).to eq("234.234.234.234")
+    it "doesn't modify the REMOTE_ADDR header" do
+      expect(last_response.headers["REMOTE_ADDR"]).to eq("234.234.234.234")
     end
   end
 end
